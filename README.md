@@ -2,8 +2,8 @@ Hhhhoard
 ==============
 
 Hhhhoard is a tiny program to download images from ffffound(.com) via Google
-Reader. Hhhhoard automatically downloads the original image you marked as
-'unread' and marks it read in Google Reader.
+Reader. Hhhhoard grabs a list of all your unread posts in the ffffound feed,
+downloads the original image, then marks it as 'read' in Google Reader.
 
 ## Prerequisites
 I generally check Ffffound images via a subscription in Google Reader. I go
