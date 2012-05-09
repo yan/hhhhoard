@@ -22,7 +22,7 @@ account preferences.
 
 2. Run inside the project dir:
 
-    mkdir imgs
+	mkdir imgs
 
 3. Compile the sources:
 
