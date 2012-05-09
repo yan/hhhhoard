@@ -19,14 +19,21 @@ continue where you left off.
 1. Before anything, update the Hhhhoard/Creds.hs file with your own credentials.
 You should probably create a new 2-factor password for this in your Google
 account preferences.
+
 2. Run inside the project dir:
+
     mkdir imgs
+
 3. Compile the sources:
+
     cabal configure
     cabal build
+
 4. Run:
+
     ./dist/build/hhhhoard/hhhhoard
-and hhhhoard will download all the images into the 'imgs/' directory in $PWD.
+
+and hhhhoard will download all the images into the `imgs/` directory in $PWD.
 
 All images for which the original source was not found will remain marked
 as 'unread' and you should get them manually.
