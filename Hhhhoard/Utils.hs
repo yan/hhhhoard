@@ -14,13 +14,14 @@ import Hhhhoard.Types
 
 downloadFile :: FilePath -> URLString -> IO (Either String Bool)
 downloadFile path dlurl = 
-  withBinaryFile (path </> urlToFile dlurl) WriteMode $ \h -> do
-    ret <- openURI dlurl
-    case ret of
-      Left  er -> return (Left er)
-      Right bs -> do { B.hPut h bs; return (Right True) }
+  withBinaryFile (path </> urlToFile dlurl) WriteMode writeContents
   where
     urlToFile = fst . span (/='?') . takeFileName
+    writeContents h = do
+      ret <- openURI dlurl
+      case ret of
+        Left  er -> return (Left er)
+        Right bs -> do { B.hPut h bs; return (Right True) }
 
 {- Extract original URL from ffffound -}
 extractOriginalUrl :: String -> Maybe String

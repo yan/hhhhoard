@@ -6,6 +6,7 @@ module Hhhhoard.Types
   , Password
   , URLString
   , tokenUrl
+  , loginUrl
   ) where
 
 import Network.Curl (URLString)
@@ -25,4 +26,6 @@ type Password = String
 
 tokenUrl :: String
 tokenUrl = "https://www.google.com/reader/api/0/"
+loginUrl :: String
+loginUrl  = "https://www.google.com/accounts/ClientLogin"
 

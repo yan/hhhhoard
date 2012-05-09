@@ -19,8 +19,8 @@ extractEntry :: IOSLA (XIOState ()) XmlTree FfffoundEntry
 extractEntry
   = atTag "entry" >>> (from "ffffound" `guards` this) >>> 
       proc ent -> do
-        title   <- textelem "title"                              -< ent
-        url     <- getAttrValue "href" <<< elem "link"           -< ent
+        title   <- text                  <<< elem "title"        -< ent
+        url     <- getAttrValue "href"   <<< elem "link"         -< ent
         author  <- text <<< atTag "name" <<< atTag "author"      -< ent
         entryid <- textelem "id"                                 -< ent
         returnA -< Entry { entryTitle = title , entryAuthor = author
@@ -36,13 +36,3 @@ extractEntry
 extractFfffoundEntries :: String -> IO [FfffoundEntry]
 extractFfffoundEntries xml = runX (readString [withValidate no] xml
                                    >>> extractEntry)
-
-{-
-extractFfffoundEntries' :: URLString -> GoogleAuth -> IO [FfffoundEntry]
-extractFfffoundEntries url =
-  runX (readDocument [withValidate noj ,withCurl [CurlHttpHeaders headers]] url
-        >>> extractEntry)
-
-  where
-    headers = ["Authorization:GoogleLogin auth="++(getAuth auth)]
--}

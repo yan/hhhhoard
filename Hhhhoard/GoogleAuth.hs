@@ -9,6 +9,7 @@ import Hhhhoard.Types
 
 import Network.Curl
 
+import Control.Applicative
 import Control.Monad
 import Control.Monad.Trans
 import Control.Monad.Maybe
@@ -17,28 +18,22 @@ import Control.Monad.Maybe
 -- Rewrite this to use OAuth?
 getGoogleAuthValue :: Email -> Password -> MaybeT IO GoogleAuth
 getGoogleAuthValue email password = do
-  (c, response) <- lift $ curlGetString svc [CurlPostFields post]
+  (c, response) <- lift $ curlGetString loginUrl [CurlPostFields post]
   guard (c == CurlOK)
   case lookupField "Auth" response of
-    Just auth -> do 
-                   token <- getGoogleTokenValue auth
-                   return (GoogleAuth auth token)
+    Just auth -> GoogleAuth auth <$> getGoogleTokenValue auth
     Nothing   -> mzero
   where
-    post = ["Email="++email, "Passwd="++password, "service=reader"]
-    svc = "https://www.google.com/accounts/ClientLogin"
+    post = ["Email=" ++ email, "Passwd=" ++ password, "service=reader"]
     getGoogleTokenValue auth = do
-      (_, response) <- lift $ curlGetString (tokenUrl++"token")
-                                                      [CurlHttpHeaders headers
-                                                      ,CurlSSLVerifyPeer False]
+      let options = [CurlHttpHeaders ["Authorization: GoogleLogin auth="++auth]]
+      (_, response) <- lift $ curlGetString (tokenUrl++"token") options
       return response
-      where
-        headers = ["Authorization: GoogleLogin auth="++auth]
 
 
 lookupField :: String -> String -> Maybe String
 lookupField field resp =
-  rmIfAtStart '=' `fmap` lookup field params
+  rmIfAtStart '=' <$> lookup field params
   where splitBy c = span (/= c)
         params = map (splitBy '=') (lines resp)
         rmIfAtStart c s@(x:xs)

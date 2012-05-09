@@ -39,7 +39,6 @@ markEntryAsRead auth (Just entry) =
              ,("ac","edit")
              ,("T", getToken auth)]
       headers = ["Authorization: GoogleLogin auth="++(getAuth auth)]
-      --mkPost =  map (\(x,y) -> x++'=':((export . urlEncode) y))
 {- should output an error message, but if we don't download the image correctly,
   show an error -}
 markEntryAsRead _ Nothing = return ()
