@@ -22,16 +22,16 @@ account preferences.
 
 2. Run inside the project dir:
 
-	mkdir imgs
+ * `mkdir imgs`
 
 3. Compile the sources:
 
-    cabal configure
-    cabal build
+ * `cabal configure`
+ * `cabal build`
 
 4. Run:
 
-    ./dist/build/hhhhoard/hhhhoard
+ * `./dist/build/hhhhoard/hhhhoard`
 
 and hhhhoard will download all the images into the `imgs/` directory in $PWD.
 
